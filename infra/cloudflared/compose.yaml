@@ -1,0 +1,15 @@
+services:
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared
+    restart: unless-stopped
+    networks:
+      proxy:
+    command: tunnel --no-autoupdate run homelab
+    volumes:
+      - ~/.cloudflared/cert.pem:/etc/cloudflared/cert.pem:ro
+      - ~/.cloudflared/config.yml:/etc/cloudflared/config.yml:ro
+      - ~/.cloudflared/5b3759ad-8388-49a9-8aec-e18eb51d935d.json:/etc/cloudflared/5b3759ad-8388-49a9-8aec-e18eb51d935d.json:ro
+networks:
+  proxy:
+    external: true

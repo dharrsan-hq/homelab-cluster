@@ -2,12 +2,19 @@ services:
   homepage:
     image: ghcr.io/gethomepage/homepage:latest
     container_name: homepage
-    ports:
-      - 7000:3000
     volumes:
       - /var/lib/homepage/config:/app/config # Make sure your local config directory exists
       - /var/run/docker.sock:/var/run/docker.sock:ro # (optional) For docker integrations, see alternative methods
     environment:
-      HOMEPAGE_ALLOWED_HOSTS: raspberrypi.tail8ebfe5.ts.net:7000 # required, may need port. See gethomepage.dev/installation/#homepage_allowed_hosts
+      HOMEPAGE_ALLOWED_HOSTS: homepage.dharrsan.com # required, may need port. See gethomepage.dev/installation/#homepage_allowed_hosts
       PUID: 1000
       PGID: 1000
+    networks:
+      internal:
+      proxy:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.excalidraw.rule=Host(`homepage.dharrsan.com`)"
+      - "traefik.http.routers.excalidraw.entrypoints=web"
+      - "traefik.http.services.excalidraw.loadbalancer.server.port=3000"
+

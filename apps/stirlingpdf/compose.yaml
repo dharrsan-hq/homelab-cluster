@@ -2,8 +2,14 @@ services:
   stirling-pdf:
     image: stirlingtools/stirling-pdf:latest
     container_name: stirling-pdf
-    ports:
-      - '1010:8080'
     volumes:
       - /var/lib/stirlingpdf/data:/configs
     restart: unless-stopped
+    networks:
+      internal:
+      proxy:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.excalidraw.rule=Host(`pdf.dharrsan.com`)"
+      - "traefik.http.routers.excalidraw.entrypoints=web"
+      - "traefik.http.services.excalidraw.loadbalancer.server.port=8080"

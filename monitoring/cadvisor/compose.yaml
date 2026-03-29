@@ -3,8 +3,6 @@ services:
     image: ghcr.io/google/cadvisor:0.55.1
     container_name: cadvisor
     privileged: true
-    ports:
-      - "8080:8080"
     volumes:
       - "/:/rootfs:ro"
       - "/var/run:/var/run:ro"
@@ -14,3 +12,12 @@ services:
     devices:
       - "/dev/kmsg:/dev/kmsg"
     restart: unless-stopped
+    networks:
+      internal:
+      proxy:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.excalidraw.rule=Host(`cadvisor.dharrsan.com`)"
+      - "traefik.http.routers.excalidraw.entrypoints=web"
+      - "traefik.http.services.excalidraw.loadbalancer.server.port=8080"
+
