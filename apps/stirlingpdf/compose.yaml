@@ -13,3 +13,9 @@ services:
       - "traefik.http.routers.excalidraw.rule=Host(`pdf.dharrsan.com`)"
       - "traefik.http.routers.excalidraw.entrypoints=web"
       - "traefik.http.services.excalidraw.loadbalancer.server.port=8080"
+
+networks:
+  proxy:
+    external: true
+  internal:
+    external: true

@@ -18,3 +18,8 @@ services:
       - "traefik.http.routers.excalidraw.entrypoints=web"
       - "traefik.http.services.excalidraw.loadbalancer.server.port=3000"
 
+networks:
+  proxy:
+    external: true
+  internal:
+    external: true
