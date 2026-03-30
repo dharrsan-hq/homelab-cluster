@@ -18,9 +18,9 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
-      - "traefik.http.routers.excalidraw.rule=Host(`cadvisor.dharrsan.com`)"
-      - "traefik.http.routers.excalidraw.entrypoints=web"
-      - "traefik.http.services.excalidraw.loadbalancer.server.port=8080"
+      - "traefik.http.routers.cadvisor.rule=Host(`cadvisor.dharrsan.com`)"
+      - "traefik.http.routers.cadvisor.entrypoints=web"
+      - "traefik.http.services.cadvisor.loadbalancer.server.port=8080"
 
 networks:
   proxy:
