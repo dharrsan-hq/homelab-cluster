@@ -2,7 +2,7 @@ services:
   grafana:
     image: grafana/grafana-enterprise:latest
     container_name: grafana
-    user: "${UID}:${GID}"
+    user: "1000:1000"
     restart: unless-stopped
     volumes:
       - /var/lib/grafana:/var/lib/grafana
