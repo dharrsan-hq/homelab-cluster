@@ -9,6 +9,7 @@ services:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
       - /var/lib/prometheus:/prometheus
     command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.retention.time=14d'
     restart: unless-stopped
     labels:
