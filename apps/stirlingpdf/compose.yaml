@@ -10,6 +10,7 @@ services:
       proxy:
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
       - "traefik.http.routers.stirlingpdf.rule=Host(`pdf.dharrsan.com`)"
       - "traefik.http.routers.stirlingpdf.entrypoints=web"
       - "traefik.http.services.stirlingpdf.loadbalancer.server.port=8080"
