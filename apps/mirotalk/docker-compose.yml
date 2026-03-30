@@ -1,0 +1,23 @@
+services:
+  mirotalk:
+    image: mirotalk/p2p:latest
+    container_name: mirotalk
+    hostname: mirotalk
+    restart: unless-stopped
+    volumes:
+      - ./.env:/src/.env:ro
+    networks:
+      proxy:
+      internal:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"      
+      - "traefik.http.routers.mirotalk.rule=Host(`talk.dharrsan.com`)"
+      - "traefik.http.routers.mirotalk.entrypoints=web"
+      - "traefik.http.services.mirotalk.loadbalancer.server.port=3000"
+
+networks:
+  proxy:
+    external: true
+  internal:
+    external: true
