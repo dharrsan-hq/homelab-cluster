@@ -5,9 +5,10 @@ services:
     networks:
       proxy:
       internal:
+    user: "1000:1000"
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
-      - /var/lib/prometheus:/prometheus
+      - /var/lib/prometheus:/prometheus/data
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.retention.time=14d'
