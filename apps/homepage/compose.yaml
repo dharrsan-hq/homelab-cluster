@@ -10,8 +10,8 @@ services:
       PUID: 1000
       PGID: 1000
     networks:
-      internal:
       proxy:
+      internal:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"

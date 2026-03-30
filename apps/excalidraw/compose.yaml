@@ -4,8 +4,8 @@ services:
     container_name: excalidraw
     restart: unless-stopped
     networks:
-      internal:
       proxy:
+      internal:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"

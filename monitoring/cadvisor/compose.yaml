@@ -13,8 +13,8 @@ services:
       - "/dev/kmsg:/dev/kmsg"
     restart: unless-stopped
     networks:
-      internal:
       proxy:
+      internal:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"

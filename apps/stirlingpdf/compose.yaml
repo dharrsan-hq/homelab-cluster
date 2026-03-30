@@ -6,8 +6,8 @@ services:
       - /var/lib/stirlingpdf/data:/configs
     restart: unless-stopped
     networks:
-      internal:
       proxy:
+      internal:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
