@@ -1,0 +1,33 @@
+services:
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    networks:
+      proxy:
+      internal:
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - /var/lib/prometheus:/prometheus
+    command:
+      - '--storage.tsdb.retention.time=14d'
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.prometheus.rule=Host(`prometheus.dharrsan.com`)"
+      - "traefik.http.routers.prometheus.entrypoints=web"
+      - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
+
+  node-exporter:
+    image: prom/node-exporter
+    container_name: node-exporter
+    # port 9100
+    networks:
+      internal:
+    restart: unless-stopped
+
+networks:
+  proxy:
+    external: true
+  internal:
+    external: true
