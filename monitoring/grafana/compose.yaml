@@ -1,0 +1,23 @@
+services:
+  grafana:
+    image: grafana/grafana-enterprise:latest
+    container_name: grafana
+    user: "${UID}:${GID}"
+    restart: unless-stopped
+    volumes:
+      - /var/lib/grafana:/var/lib/grafana
+    networks:
+      proxy:
+      internal:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.grafana.rule=Host(`grafana.dharrsan.com`)"
+      - "traefik.http.routers.grafana.entrypoints=web"
+      - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+
+networks:
+  proxy:
+    external: true
+  internal:
+    external: true
