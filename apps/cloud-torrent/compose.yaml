@@ -1,0 +1,23 @@
+services:
+  cloud-torrent:
+    image: jpillora/cloud-torrent
+    container_name: ct
+    networks:
+      proxy:
+      internal:
+    volumes:
+      - /var/lib/cloud-torrent/downloads:/downloads
+    restart: always
+    command: --port 63000
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.torrent.rule=Host(`torrent.dharrsan.com`)"
+      - "traefik.http.routers.torrent.entrypoints=web"
+      - "traefik.http.services.torrent.loadbalancer.server.port=63000"
+
+networks:
+  proxy:
+    external: true
+  internal:
+    external: true
