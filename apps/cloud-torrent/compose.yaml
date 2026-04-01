@@ -2,6 +2,7 @@ services:
   cloud-torrent:
     image: jpillora/cloud-torrent
     container_name: ct
+    platform: linux/amd64   # forces amd64 emulation
     networks:
       proxy:
       internal:
