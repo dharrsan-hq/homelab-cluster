@@ -21,7 +21,7 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"      
       # Router for RustFS main API
-      - "traefik.http.routers.rustfs-console.rule=Host(`web.rustfs.dharrsan.com`)"
+      - "traefik.http.routers.rustfs-console.rule=Host(`rustfsui.dharrsan.com`)"
       - "traefik.http.routers.rustfs-console.entrypoints=web"
       - "traefik.http.services.rustfs-console.loadbalancer.server.port=9001"
       # Router for RustFS web console
