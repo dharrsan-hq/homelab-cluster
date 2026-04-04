@@ -2,6 +2,7 @@ services:
   rustfs:
     image: rustfs/rustfs:latest
     container_name: rustfs_container
+    user: 1000:1000
     volumes:
       - /var/lib/rustfs/data:/data
     env_file:
