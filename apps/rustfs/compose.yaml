@@ -1,0 +1,34 @@
+services:
+  rustfs:
+    image: rustfs/rustfs:latest
+    container_name: rustfs_container
+    volumes:
+      - /var/lib/rustfs/data:/data
+    env_file:
+      - .env
+    command:
+      - --address :9000
+      - --console-enable
+      - /data
+    networks:
+      proxy:
+      internal:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"      
+      # Router for RustFS main API
+      - "traefik.http.routers.rustfs-console.rule=Host(`web.rustfs.dharrsan.com`)"
+      - "traefik.http.routers.rustfs-console.entrypoints=web"
+      - "traefik.http.services.rustfs-console.loadbalancer.server.port=9001"
+      # Router for RustFS web console
+      - "traefik.http.routers.rustfs.rule=Host(`rustfs.dharrsan.com`)"
+      - "traefik.http.routers.rustfs.entrypoints=web"
+      - "traefik.http.services.rustfs.loadbalancer.server.port=9000"
+
+    restart: unless-stopped
+
+networks:
+  proxy:
+    external: true
+  internal:
+    external: true
