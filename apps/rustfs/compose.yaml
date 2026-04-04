@@ -7,7 +7,9 @@ services:
     env_file:
       - .env
     command:
-      - --address :9000
+      - server
+      - --address
+      - ":9000"
       - --console-enable
       - /data
     networks:
