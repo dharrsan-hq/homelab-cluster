@@ -4,8 +4,21 @@ services:
     container_name: vaultwarden
     restart: unless-stopped
     environment:
-      DOMAIN: "https://vw.domain.tld"
+      DOMAIN: "https://vault.dharrsan.com"
     volumes:
-      - ./vw-data/:/data/
-    ports:
-      - 127.0.0.1:8000:80
+      - /var/lib/vaultwarden/data:/data/
+    networks:
+      proxy:
+      internal:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.vault.rule=Host(`vault.dharrsan.com`)"
+      - "traefik.http.routers.vault.entrypoints=web"
+      - "traefik.http.services.vault.loadbalancer.server.port=80"
+
+networks:
+  proxy:
+    external: true
+  internal:
+    external: true
