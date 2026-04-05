@@ -5,6 +5,7 @@ services:
     restart: unless-stopped
     environment:
       DOMAIN: "https://vault.dharrsan.com"
+    user: 1000:1000
     volumes:
       - /var/lib/vaultwarden/data:/data/
     networks:
