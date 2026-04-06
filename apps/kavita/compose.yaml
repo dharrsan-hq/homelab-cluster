@@ -1,0 +1,25 @@
+services:
+  kavita:
+    image: jvmilazz0/kavita:latest    # Using the stable branch from the official dockerhub repo.
+    container_name: kavita
+    volumes:
+      - /var/lib/kavita/books:/books
+      - /var/lib/kavita/saved/config:/kavita/config     # /kavita/config must not be changed
+    environment:
+      - TZ=Asia/Kolkata
+    restart: unless-stopped
+    networks:
+      proxy:
+      internal:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"      
+      - "traefik.http.routers.kavita.rule=Host(`books.dharrsan.com`)"
+      - "traefik.http.routers.kavita.entrypoints=web"
+      - "traefik.http.services.kavita.loadbalancer.server.port=5000"
+
+networks:
+  proxy:
+    external: true
+  internal:
+    external: true
