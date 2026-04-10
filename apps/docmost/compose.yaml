@@ -1,0 +1,50 @@
+services:
+  docmost:
+    image: docmost/docmost:latest
+    depends_on:
+      - db
+      - redis
+    environment:
+      APP_URL: 'https://docs.dharrsan.com'
+      APP_SECRET: ''
+      DATABASE_URL: 'postgresql://docmost:STRONG_DB_PASSWORD@db:5432/docmost'
+      REDIS_URL: 'redis://redis:6379'
+    restart: unless-stopped
+    volumes:
+      - /var/lib/docmost/storage:/app/data/storage
+    networks:
+      - proxy
+      - internal
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.docs.rule=Host(`docs.dharrsan.com`)"
+      - "traefik.http.routers.docs.entrypoints=web"
+      - "traefik.http.services.docs.loadbalancer.server.port=3000"
+
+  db:
+    image: postgres:18
+    environment:
+      POSTGRES_DB: docmost
+      POSTGRES_USER: docmost
+      POSTGRES_PASSWORD: STRONG_DB_PASSWORD
+    restart: unless-stopped
+    volumes:
+      - /var/lib/docmost/postgres:/var/lib/postgresql
+    networks:
+      - internal
+
+  redis:
+    image: redis:8
+    command: ["redis-server", "--appendonly", "yes", "--maxmemory-policy", "noeviction"]
+    restart: unless-stopped
+    volumes:
+      - /var/lib/docmost/redis:/data
+    networks:
+      - internal
+
+networks:
+  proxy:
+    external: true
+  internal:
+    external: true
